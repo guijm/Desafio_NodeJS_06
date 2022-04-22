@@ -6,6 +6,7 @@ import * as dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
+import { prisma, PrismaClient } from "@prisma/client";
 
 dotenv.config();
 
@@ -39,5 +40,21 @@ app.listen(PORT, () => {
 
 	// CÓDIGO PARA ATENDER OS REQUERIMENTOS
 	// R01, R02, R03, R04, R05
+
+	const readline = require('readline-sync');
+	let nome = readline.question('digite o nome do aluno: ');
+	let nota = parseInt(readline.question('digite a nota do aluno: '));
 	
+	const prisma = new PrismaClient();
+
+	prisma.aluno.create({
+		data: {
+			name: nome,
+			nota: nota
+		}
+	})
+	.then(()=>{
+		console.log('Salvo no banco de dados!');
+		
+	})
 });
